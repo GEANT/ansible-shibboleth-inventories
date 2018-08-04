@@ -1,0 +1,24 @@
+# ignore generated 'retry' files
+*.retry
+
+# ignore vault password file
+*.vault_pass.txt
+
+# ignore crt and key files
+#*.crt
+#*.key
+#*.pem
+#*.jks
+#*.kver
+#*.p12
+*_pw.txt
+
+# ignore swp files
+*.swp
+
+# ignore emacs files
+*~
+\#*\#
+
+# ignore .git_ignore files
+*.git_ignore
