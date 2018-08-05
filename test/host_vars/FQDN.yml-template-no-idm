@@ -15,21 +15,35 @@
 
 ### Machine Variables
 fqdn: FQDN
+files_dir: "/opt/ansible-shibboleth/inventories/files"
 
+### Common Variables
 ### For self-signed certs use ca: "{{ fqdn }}.crt"
 common:
  ca: "ca.crt"
  ssl_cert: "{{ fqdn }}.crt"
  ssl_key: "{{ fqdn }}.key"
+ # Add(present) or Remove(absent) SWAP file.
+ # Remove entirely "swap" section if you use a dedicated partition for SWAP or if don't need it.
  swap:
   name_swapfile: "swapfile"
   size_swapfile: "2048"
   state: present
+ # Remove entirely "mirror" section to use the default distribution repositories
+ mirror: "https://mi.mirror.garr.it/mirrors/debian/"
 
+### NTP Variables
+my_timezone: Europe/Rome
+
+ntp1: ntp1.inrim.it
+ntp2: ntp2.inrim.it
+ntp3: 0.it.pool.ntp.org
+
+### Apache Variables
 apache:
  admin_email: "{{ idp_contacts['technical']['mail'] }}"
 
-### JDK Variables - Default "openjdk"
+### JDK Variables - Default "openjdk 8"
 jdk_type: "oraclejdk"
 jdk_version: "8"
 
@@ -43,11 +57,6 @@ mysql:
 rsyslog_srv:
  ip: "## RSYSLOG_SRV_IP_FROM_INTERNAL_NETWORK ##"
  port: "20514"
-
-### MYSQL/LDAP Backups Server with path
-backups_srv:
- ip: "## MYSQL_LDAP_BACKUPS_SRV_IP_FROM_INTERNAL_NETWORK ##"
- remote_path: "## BACKUPS_DIR_ON_BACKUPS_SRV ##"
 
 ### IDP Variables
 idp_config:
@@ -85,6 +94,12 @@ idp_login:
  create_info_and_pp_pages: "Yes"
  footer_text_color: "#ffffff"
  footer_background_color: "#717171"
+ idp_url_password_reset: "{{ url_password_reset }}"
+ aup:
+  en:
+   aupUrl: "https://www.garr.it/en/acceptable-use-policies"
+  it:
+   aupUrl: "https://www.garr.it/it/regole-di-utilizzo-della-rete-aup"
  footer:
   en:
    text: "<p><strong>FOOTER TEXT</strong> in english language</p>"
@@ -207,9 +222,3 @@ check_mk:
  idp_scope: "{{ idp_config['scope'] }}"
  check_rs: "{{ idp_config['sup_rs'] }}"
  check_coco: "{{ idp_config['sup_coco'] }}"
-
-### RSYNC Variables
-rsync:
- config:
-  ssh_pub_key: "{{ lookup('file', '/opt/ansible-shibboleth/roles/rsync/files/ssh/ssh_pub_key') }}"
-  ssh_priv_key: "{{ lookup('file', '/opt/ansible-shibboleth/roles/rsync/files/ssh/ssh_priv_key') }}"
