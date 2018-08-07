@@ -85,7 +85,7 @@ idp_config:
   useSSL: "false"
   connectTimeout: "3000"
   sslConfig: "certificateTrust"
-  trustCertificates: "/etc/ssl/certs/CAcert.pem"
+  trustCertificates: "/etc/ssl/certs/cacert.pem"
   baseDN: "ou=people,{{ ldap['basedn'] }}"
   subtreeSearch: "true"
   userFilter: "(uid={user})"
@@ -94,13 +94,15 @@ idp_config:
   searchFilter: "(uid=$resolutionContext.principal)"
   returnAttributes: "*"
   ppolicy:
-   change_password_url: "#"
+   change_password_url: "{{ url_password_reset }}"
  fticks:
   federation: "IDEM GARR AAI"
   alg: "SHA-256"
   salt: "## RANDOM_LONG_STRING_2 ##"
   loghost: "localhost"
   logport: "514"
+ sup_rs: "yes"
+ sup_coco: "yes"
 
 idp_login:
  create_info_and_pp_pages: "Yes"
@@ -136,11 +138,11 @@ idp_login:
     name: "IDEM GARR AAI"
     url: "http://www.idem.garr.it/"
     logo: "/images/federation-logo.png"
- sup_rs: "yes"
- sup_coco: "yes"
 
 ### IDP Metadata Variables
 idp_federation_regAuth: "https://registration.authority.com/"
+
+idp_entityID: "https://{{ fqdn }}/idp/shibboleth"
 
 idp_metadata:
  en:
@@ -173,18 +175,19 @@ idp_contacts:
   givenName: "Name"
   surName: "Surname"
   mail: "email.address@example.org"
+  address: "institution postal address"
 
 ### Federation Metadata URL
 idp_metadata_providers:
  - id: "CUSTOM-FEDERATION"
    file: "custom-metadata.xml"
    url: "## CUSTOM-FEDERATION METADATA URL ##"
-   maxValidInterval: "P5D"
+   maxValidInterval: "P10D"
    disregardTLSCertificate: "true"
  - id: "IDEM-TEST-FEDERATION"
    file: "idem-test-metadata-sha256.xml"
    url: "http://www.garr.it/idem-metadata/idem-test-metadata-sha256.xml"
-   maxValidInterval: "P5D"
+   maxValidInterval: "P10D"
    disregardTLSCertificate: "false"
    pubKey: |
     MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxrLc3bV+zC7cATqGoI9R
@@ -197,7 +200,7 @@ idp_metadata_providers:
  - id: "IDEM-PRODUCTION-FEDERATION"
    file: "idem-metadata-sha256.xml"
    url: "http://www.garr.it/idem-metadata/idem-metadata-sha256.xml"
-   maxValidInterval: "P5D"
+   maxValidInterval: "P10D"
    disregardTLSCertificate: "false"
    pubKey: |
     MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxrLc3bV+zC7cATqGoI9R
