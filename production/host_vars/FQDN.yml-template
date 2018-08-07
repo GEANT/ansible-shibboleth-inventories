@@ -20,6 +20,7 @@ files_dir: "/opt/ansible-shibboleth/inventories/files"
 ### Common Variables
 ### For self-signed certs use ca: "{{ fqdn }}.crt"
 common:
+ ssl: "True"
  ca: "ca.crt"
  ssl_cert: "{{ fqdn }}.crt"
  ssl_key: "{{ fqdn }}.key"
