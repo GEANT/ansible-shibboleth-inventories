@@ -1,0 +1,10 @@
+---
+# 'bck_uri' contains the backup server URI where retrieve LDAP and MySQL backups
+bck_uri: idpbakuser@external-backup-server.example.org:/home/idpbakuser/BACKUPS/data-backups.example.org/backups/hourly.0
+
+# 'host_bck_path' contains the backups directory path on the backup server
+# see /opt/ansible-shibboleth/roles/[idp|openldap]/tasks/[idp|ldap]-restore.yml
+host_bck_path: var/local/backups
+
+# 'vault_file' contains the path of the Ansible Vault file used to encrypt HOST YAML files
+vault_file: "/opt/ansible-shibboleth/.vault_pass"
