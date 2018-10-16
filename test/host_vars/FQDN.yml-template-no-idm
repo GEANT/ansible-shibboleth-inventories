@@ -35,10 +35,6 @@ common:
 ### NTP Variables
 my_timezone: Europe/Rome
 
-ntp1: ntp1.inrim.it
-ntp2: ntp2.inrim.it
-ntp3: 0.it.pool.ntp.org
-
 ### Apache Variables
 apache:
  admin_email: "{{ idp_contacts['technical']['mail'] }}"
