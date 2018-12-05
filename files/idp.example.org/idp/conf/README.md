@@ -15,7 +15,7 @@ This directory is useful to provide the custom version of:
 - ```c14n/subject-c14n.xml```
 - ```logback.xml```
 - ```attribute-filter-v3-coco.xml```
-- ```attribute-filter-v3-coco.xml```
+- ```attribute-filter-v3-rs.xml```
 - ```audit.xml```
 - ```mvc-beans.xml```
 
