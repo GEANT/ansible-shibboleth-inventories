@@ -56,7 +56,7 @@ mysql:
 
 ### RSYSLOG Server
 rsyslog_srv:
- ip: "## RSYSLOG_SRV_IP_FROM_INTERNAL_NETWORK ##"
+ ip: "## RSYSLOG_SRV_IP_FROM_INTERNAL_NETWORK OR {{ rsyslog_server_ip }} FROM 'group_vars'##"
  port: "20514"
 
 ### IDP Variables

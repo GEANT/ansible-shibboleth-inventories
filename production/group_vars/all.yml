@@ -8,3 +8,13 @@ host_bck_path: var/local/backups
 
 # 'vault_file' contains the path of the Ansible Vault file used to encrypt HOST YAML files
 vault_file: "/opt/ansible-shibboleth/.vault_pass"
+
+## DNS Nameservers
+nameservers:
+ - 8.8.8.8
+ - 8.8.4.4
+ - 1.1.1.1
+ - 1.0.0.1
+
+## Rsyslog Server
+rsyslog_server_ip: 192.168.1.254
