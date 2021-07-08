@@ -43,7 +43,7 @@ apache:
  web_gui_user: "idm-admin"
  web_gui_pw: "## RANDOM PASSWORD FOR idm-admin WEB USER ##"
 
-### JDK Variables - Default "openjdk 8"
+### JDK Variables - Default "Amazon Corretto 11"
 jdk_type: "corretto"
 jdk_version: "11"
 
