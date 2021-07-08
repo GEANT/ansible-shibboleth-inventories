@@ -1,5 +1,5 @@
 ---
-# file: host_vars/##FULL.VM.QUALIFIED.DOMAIN.NAME##.yml
+# file: host_vars/idp.example.org.yml
 
 # idp_config['idp_sourceAttribute']:
 # MUST BE an attribute, or a list of comma-separated attributes,
@@ -14,7 +14,7 @@
 
 
 ### Machine Variables
-fqdn: FQDN
+fqdn: "idp.example.org"
 files_dir: "/opt/ansible-shibboleth/inventories/files"
 
 ### Common Variables
@@ -31,7 +31,8 @@ common:
   size_swapfile: "2048"
   state: present
  # Remove entirely "mirror" section to use the default distribution repositories
- mirror: "https://mi.mirror.garr.it/mirrors/debian/"
+ mirror: "https://debian.mirror.garr.it/debian/"
+ root_user_pw: "## RANDOM PASSWORD FOR THE VM ROOT USER ##"
 
 ### NTP Variables
 my_timezone: Europe/Rome
@@ -39,16 +40,18 @@ my_timezone: Europe/Rome
 ### Apache Variables
 apache:
  admin_email: "{{ idp_contacts['technical']['mail'] }}"
+ web_gui_user: "idp-admin"
+ web_gui_pw: "## RANDOM PASSWORD FOR idm-admin WEB USER ##"
 
-### JDK Variables - Default "openjdk 8"
-jdk_type: "oraclejdk"
-jdk_version: "8"
+### JDK Variables - Default "Amazon corretto 11"
+jdk_type: "corretto"
+jdk_version: "11"
 
 ### MySQL Variables
 idp_db_restore: "false"
 
 mysql:
- root_password: "mysql-root-password"
+ root_password: "## RANDOM PASSWORD FOR THE MYSQL ROOT USER ##"
 
 ### RSYSLOG Server
 rsyslog_srv:
@@ -56,13 +59,17 @@ rsyslog_srv:
  port: "20514"
 
 ### IDP Variables
+idp_sealer_restore: "false"
+
 idp_config:
- sealer_pw: "sealer-password"
- keystore_pw: "sealer-password"
- shibboleth_db_password: "root-db-password"
+ sealer_pw: "## RANDOM PASSWORD FOR SEALER IDP ##"
+ keystore_pw: "## RANDOM PASSWORD FOR KEYSTORE IDP ##"
+ shibboleth_db_password: "## RANDOM PASSWORD FOR SHIBBOLETH DB USER ##"
  scope: "example.org"
  idp_sourceAttribute: "uid"
  idp_persistentId_salt: "## RANDOM_LONG_STRING_1 ##"
+ idp_persistentId_enc: "BASE64"
+ idp_persistentId_type: "computed"
  ldap:
   authenticator: "bindSearchAuthenticator"
   url: "## ldap://host:port or ldaps://host:port ##"
@@ -75,13 +82,13 @@ idp_config:
   subtreeSearch: "true"
   userFilter: "(uid={user})"
   bindDN: "cn=idpuser,ou=system,{{ ldap['basedn'] }}"
-  bindDNCredential: "idpuserpassword"
+  bindDNCredential: "## RANDOM PASSWORD FOR idpuser LDAP USER ABLE TO SEARCH ##"
   searchFilter: "(uid=$resolutionContext.principal)"
   returnAttributes: "*"
   ppolicy:
    change_password_url: "{{ url_password_reset }}"
  fticks:
-  federation: "IDEM GARR AAI"
+  federation: "## FEDERATION NAME ##"
   alg: "SHA-256"
   salt: "## RANDOM_LONG_STRING_2 ##"
   loghost: "localhost"
@@ -199,11 +206,14 @@ idp_metadata_providers:
     KwIDAQAB
 
 ### Statistics Web App
+idp_stats_restore: "false"
+
 idp_stats:
  fed_name: "{{ idp_metadata_providers[1]['id'] }}"
  fed_md: "{{ idp_metadata_providers[1]['file'] }}"
  fed_site: "## FEDERATION SITE ##"
  db_pw: "## STATISTICS DB PASSWORD ##"
+ db_host: "localhost"
 
 ### CHECK_MK Monitoring Server
 check_mk:
